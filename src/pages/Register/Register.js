@@ -52,8 +52,9 @@ function Register() {
   }, [image]);
 
   const submitform = (e) => {
-    const { fname, lname, email, mobile, gender, location } = input;
     e.preventDefault();
+    const { fname, lname, email, mobile, gender, location } = input;
+
     if (fname === "") {
       toast.error("First name is Required !");
     } else if (lname === "") {
@@ -77,26 +78,27 @@ function Register() {
     } else {
       toast.success("user Registered successfully!");
     }
-    
   };
   return (
     <>
-      <div className="container">
-        <h2 className="text-center mt-1">Register your Details</h2>
+      <div className="container mt-5 ">
+        <ToastContainer position="top-center" />
+        <h2 className="text-center  mt-4">Register your Details</h2>
         <Card className="shadow mt-3 p-3">
           <div className="profile_div text-center">
             <img src={preview ? preview : man} alt="pic" />
           </div>
+
           <Form>
             <Row>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
-                <Form.Label>First Name</Form.Label>
+                <Form.Label>First name</Form.Label>
                 <Form.Control
                   type="text"
                   name="fname"
                   value={input.fname}
-                  placeholder="Enter your name"
                   onChange={handleInputValue}
+                  placeholder="Enter FirstName"
                 />
               </Form.Group>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
@@ -105,8 +107,8 @@ function Register() {
                   type="text"
                   name="lname"
                   value={input.lname}
-                  placeholder="Enter your last name"
                   onChange={handleInputValue}
+                  placeholder="Enter LastName"
                 />
               </Form.Group>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
@@ -115,8 +117,8 @@ function Register() {
                   type="email"
                   name="email"
                   value={input.email}
-                  placeholder="Enter email"
                   onChange={handleInputValue}
+                  placeholder="Enter Email"
                 />
               </Form.Group>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
@@ -125,56 +127,55 @@ function Register() {
                   type="text"
                   name="mobile"
                   value={input.mobile}
-                  placeholder="Enter mobile number"
                   onChange={handleInputValue}
+                  placeholder="Enter Mobile"
                 />
               </Form.Group>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
-                <Form.Label>Select your Genter</Form.Label>
+                <Form.Label>Select Your Gender</Form.Label>
                 <Form.Check
                   type={"radio"}
-                  name={"Gender"}
+                  label={`Male`}
+                  name="gender"
                   value={"Male"}
-                  label={"Male"}
                   onChange={handleInputValue}
                 />
                 <Form.Check
                   type={"radio"}
-                  name={"Gender"}
+                  label={`Female`}
+                  name="gender"
                   value={"Female"}
-                  label={"Female"}
                   onChange={handleInputValue}
                 />
               </Form.Group>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
-                <Form.Label>Select your Status</Form.Label>
-                <Select options={options} onChange={setStatus} />
+                <Form.Label>Select Your Status</Form.Label>
+                <Select options={options} onChange={setStatusvalue} />
               </Form.Group>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
-                <Form.Label>Select your Profile</Form.Label>
+                <Form.Label>Select Your Profile</Form.Label>
                 <Form.Control
-                  type="text"
-                  name="profile"
-                  placeholder="Profile"
+                  type="file"
+                  name="user_profile"
                   onChange={setProfile}
+                  placeholder="Select Your Profile"
                 />
               </Form.Group>
               <Form.Group className="mb-3 col-lg-6" controlId="formBasicEmail">
-                <Form.Label>Enter your Location</Form.Label>
+                <Form.Label>Enter Your Location</Form.Label>
                 <Form.Control
                   type="text"
                   name="location"
                   value={input.location}
-                  placeholder="Enter your Location"
                   onChange={handleInputValue}
+                  placeholder="Enter Your Location"
                 />
               </Form.Group>
-              <Button variant="primary" type="submit" onSubmit={submitform}>
+              <Button variant="primary" type="submit" onClick={submitform}>
                 Submit
               </Button>
             </Row>
           </Form>
-          <ToastContainer position="top-center" />
         </Card>
       </div>
     </>
