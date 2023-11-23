@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import "./home.css";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useNavigate } from "react-router-dom";
+import Tables from "../../components/Tables/Tables";
+
+import Spiner from "../../components/Spinner/Spiner"
 
 function Home() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const adduser = ()=>{
-    navigate("/register")
-  }
+  const [Show,setShow] = useState(true)
+
+  useEffect(()=>{
+    setTimeout(()=>{
+      setShow(false)
+    },1500)
+  },[])
+
+  const adduser = () => {
+    navigate("/register");
+  };
 
   return (
     <>
@@ -110,6 +121,7 @@ function Home() {
             </div>
           </div>
         </div>
+        {Show ? <Spiner /> : <Tables />}
       </div>
     </>
   );
