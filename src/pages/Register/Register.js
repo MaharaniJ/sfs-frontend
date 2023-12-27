@@ -9,6 +9,8 @@ import man from "../../Assets/man.png";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Spiner from "../../components/Spinner/Spiner";
+import { registerfunction } from "../../services/Api";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
   const [input, setInput] = useState({
@@ -25,18 +27,19 @@ function Register() {
   const [status, setStatus] = useState("Active");
   const [image, setImage] = useState("");
   const [preview, setPreview] = useState("");
-
   const [show, Setshow] = useState(true);
 
-  useEffect(()=>{
-      setTimeout(()=>{
-        Setshow(false)
-      },1500)
-  },[])
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    setTimeout(() => {
+      Setshow(false);
+    }, 1500);
+  }, []);
 
   const options = [
     { value: "Active", label: "Active" },
-    { value: "Invalid", label: "Invalid" },
+    { value: "InActive", label: "InActive" },
   ];
   const handleInputValue = (e) => {
     const { name, value } = e.target; // Use e.target.name and e.target.value
@@ -60,7 +63,7 @@ function Register() {
     }
   }, [image]);
 
-  const submitform = (e) => {
+  const submitform = async (e) => {
     e.preventDefault();
     const { fname, lname, email, mobile, gender, location } = input;
 
@@ -85,7 +88,38 @@ function Register() {
     } else if (location === "") {
       toast.error("location is Required !");
     } else {
-      toast.success("user Registered successfully!");
+      const data = new FormData();
+      data.append("fname", fname);
+      data.append("lname", lname);
+      data.append("email", email);
+      data.append("mobile", mobile);
+      data.append("gender", gender);
+      data.append("status", status);
+      data.append("user_profile", image);
+      data.append("location", location);
+
+      const config = {
+        "Content-Type": "multipart/form-data",
+      };
+      const response = await registerfunction(data, config);
+
+      if (response.status === 200) {
+        setInput({
+          ...input,
+          fname: "",
+          lname: "",
+          email: "",
+          mobile: "",
+          gender: "",
+          location: "",
+        });
+        setStatus("");
+        setImage("");
+        navigate("/");
+      } else {
+        toast.error("Error");
+      }
+      // toast.success("user Registered successfully!");
     }
   };
   return (
